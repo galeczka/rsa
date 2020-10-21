@@ -6,19 +6,19 @@ from prime_utils import generate_prime, modinv
 
 
 def int_to_string(int_string: int) -> str:
-    '''Odkodowanie utf-8'''
+    """Odkodowanie utf-8"""
     byte_string = int_string.to_bytes((int_string.bit_length() + 7) // 8, 'big')
     return str(byte_string, 'utf-8')
 
 
 def int_from_string(string: str) -> int:
-    '''Kodowanie utf-8'''
+    """Kodowanie utf-8"""
     byte_string = bytes(string, 'utf-8')
     return int.from_bytes(byte_string, 'big')
 
 # @profile
 def generate_keys(bit_size):
-    '''Generator kluczy'''
+    """Generator kluczy"""
     p = generate_prime(bit_size)
     q = generate_prime(bit_size)
     while p == q:
@@ -46,7 +46,7 @@ def generate_keys(bit_size):
 
 
 def encrypt(message: str, public_key: tuple) -> int:
-    '''Szyfrowanie kluczem publicznym'''
+    """Szyfrowanie kluczem publicznym"""
     e, n = public_key
     int_message = int_from_string(message)
     ciphertext = pow(int_message, e, n)
@@ -54,7 +54,7 @@ def encrypt(message: str, public_key: tuple) -> int:
 
 
 def decrypt(ciphertext: int, private_key: tuple) -> str:
-    '''Odszyfrowanie kluczem prywatnym'''
+    """Odszyfrowanie kluczem prywatnym"""
     d, n = private_key
     int_message = pow(ciphertext, d, n)
     message = int_to_string(int_message)
@@ -63,7 +63,7 @@ def decrypt(ciphertext: int, private_key: tuple) -> str:
 
 def main():
 
-    parser = argparse.ArgumentParser(description='RSA cryptosystem')
+    parser = argparse.ArgumentParser(description="RSA cryptosystem")
     group = parser.add_mutually_exclusive_group()
     group.add_argument("--gen-keys", metavar="key_lenght", type=int, default=128,
                        help="generate crypto keys")
